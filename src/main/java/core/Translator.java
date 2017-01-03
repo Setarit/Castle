@@ -20,6 +20,8 @@ public class Translator {
 	/**
 	 * Constructor for the Translator instance
 	 * @param settings The shared variables
+	 * @throws CastleException If the translation file does not exist, if the setting "LANGUAGE" is not set
+	 * or when the translation file is malformed
 	 */
 	public Translator(Settings settings) throws CastleException {
 		this.settings = settings;
@@ -30,7 +32,7 @@ public class Translator {
 	 * Reads the translation file for the language specified in the settings
 	 * @param ISO639LanguageCode The ISO 639 letter code of the translation file to read
 	 * @param isDefaultLanguage True if the translation file is the default language 
-	 * @throws CastleExceptionIf the translation file does not exist, if the setting "LANGUAGE" is not set
+	 * @throws CastleException If the translation file does not exist, if the setting "LANGUAGE" is not set
 	 * or when the translation file is malformed
 	 */
 	public void readTranslationFile(String ISO639LanguageCode, boolean isDefaultLanguage) throws CastleException{
@@ -98,7 +100,8 @@ public class Translator {
 	/**
 	 * Updates the fall back language and fall back translations
 	 * @param language The language code of the fall back language
-	 * @throws CastleException 
+	 * @throws CastleException If the translation file does not exist, if the setting "LANGUAGE" is not set
+	 * or when the translation file is malformed
 	 */
 	public void setFallBackLanguage(String language) throws CastleException {
 		readTranslationFile(language, true);
