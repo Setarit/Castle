@@ -1,8 +1,7 @@
 package core;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.net.URL;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -34,7 +33,7 @@ public class TranslationFileReader {
 	 */
 	public Map<String, String> readTranslationFile(String languageCode) throws FileNotFoundException, CastleException {
 		Map<String, String> translations = new HashMap<String, String>();
-		Scanner fileScanner = new Scanner(getCorrectTranslationFile(languageCode));
+		Scanner fileScanner = new Scanner(getCorrectTranslationInputStream(languageCode));
 		while(fileScanner.hasNextLine()){
 			Scanner lineScanner = new Scanner(fileScanner.nextLine());
 			lineScanner.useDelimiter("\t");
@@ -65,14 +64,14 @@ public class TranslationFileReader {
 	/**
 	 * Searches the language file specified by the language code
 	 * @param languageCode The language code of the translation file
-	 * @return The correct translation file instance
-	 * @throws CastleException If there is no language file in the translations directory
+	 * @return The correct translation input stream
+	 * @throws CastleException If there is no language file for the given language code in the translations directory
 	 */
-	private File getCorrectTranslationFile(String languageCode) throws CastleException {
-		URL fileUrl = getClass().getResource("/translations/"+languageCode+".txt");
-		if(fileUrl == null){
+	private InputStream getCorrectTranslationInputStream(String languageCode) throws CastleException {	
+		InputStream stream = getClass().getResourceAsStream("/translations/"+languageCode+".txt");
+		if(stream == null){		
 			throw new CastleException("There is no translation file for "+languageCode);
 		}
-		return new File(fileUrl.getPath());
+		return stream;		
 	}
 }
